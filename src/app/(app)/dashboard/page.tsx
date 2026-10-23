@@ -207,7 +207,7 @@ export default async function DashboardPage() {
               highlight: p.sessions === peakHighlight,
             }))}
             height={168}
-            formatValue={(v) => `${v} sessions`}
+            suffix="sessions"
           />
           <div className="mt-3 flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] p-2.5">
             <Clock3 className="h-3.5 w-3.5 shrink-0 text-amber" />

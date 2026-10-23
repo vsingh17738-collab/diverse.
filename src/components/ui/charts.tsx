@@ -139,11 +139,11 @@ export function AreaChart({
 export function BarChart({
   data,
   height = 150,
-  formatValue = (v: number) => String(v),
+  suffix,
 }: {
   data: { label: string; value: number; highlight?: boolean }[];
   height?: number;
-  formatValue?: (v: number) => string;
+  suffix?: string;
 }) {
   const max = Math.max(...data.map((d) => d.value), 1);
   return (
@@ -153,7 +153,8 @@ export function BarChart({
         return (
           <div key={d.label} className="group relative flex flex-1 flex-col items-center justify-end gap-1.5">
             <div className="pointer-events-none absolute -top-4 z-10 whitespace-nowrap rounded-md border border-white/10 bg-[#151522] px-2 py-1 text-[10px] font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
-              {formatValue(d.value)}
+              {d.value}
+              {suffix ? ` ${suffix}` : ""}
             </div>
             <div
               className={cn(

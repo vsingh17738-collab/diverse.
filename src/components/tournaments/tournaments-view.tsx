@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
   CalendarDays,
@@ -67,14 +68,19 @@ export function TournamentsView({
   const [mode, setMode] = useState<Mode | null>(null);
   const [toDelete, setToDelete] = useState<Tournament | null>(null);
   const { execute, pending } = useServerAction();
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     setRows(initial);
   }, [initial]);
 
   useEffect(() => {
-    if (autoOpen) setMode({ kind: "create" });
-  }, [autoOpen]);
+    if (!autoOpen) return;
+    setMode({ kind: "create" });
+    // Drop the ?new=1 flag so the shortcut can be triggered again later.
+    router.replace(pathname, { scroll: false });
+  }, [autoOpen, pathname, router]);
 
   const stats = useMemo(
     () => ({

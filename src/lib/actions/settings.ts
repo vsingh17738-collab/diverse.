@@ -7,7 +7,10 @@ import { resetDatabase } from "../seed";
 import { fail, type ActionResult } from "../action-result";
 
 export async function resetDemoData(): Promise<ActionResult> {
-  await requireUser();
+  const user = await requireUser();
+  if (user.role !== "owner") {
+    return { ok: false, error: "Only the zone owner can reseed demo data." };
+  }
   try {
     resetDatabase(db);
     revalidatePath("/", "layout");

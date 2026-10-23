@@ -145,33 +145,42 @@ export function SettingsView({
             </form>
           </SectionCard>
 
-          <SectionCard
-            title="Workspace data"
-            subtitle="Regenerate the seeded demo dataset"
-          >
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet/10 text-violet-soft">
-                  <Database className="h-5 w-5" />
-                </span>
-                <div>
-                  <p className="text-[12.5px] font-semibold text-white">Reset demo data</p>
-                  <p className="mt-0.5 max-w-md text-[11px] leading-relaxed text-muted">
-                    Wipes members, stations, bookings, games, tournaments and transactions,
-                    then reseeds a fresh, realistic dataset. Your login stays the same.
-                  </p>
+          {user.role === "owner" ? (
+            <SectionCard
+              title="Workspace data"
+              subtitle="Regenerate the seeded demo dataset"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet/10 text-violet-soft">
+                    <Database className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-[12.5px] font-semibold text-white">Reset demo data</p>
+                    <p className="mt-0.5 max-w-md text-[11px] leading-relaxed text-muted">
+                      Wipes members, stations, bookings, games, tournaments and transactions,
+                      then reseeds a fresh, realistic dataset. Your login stays the same.
+                    </p>
+                  </div>
                 </div>
+                <Button variant="secondary" onClick={() => setResetOpen(true)} disabled={resetPending}>
+                  {resetPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="h-4 w-4" />
+                  )}
+                  Reseed
+                </Button>
               </div>
-              <Button variant="secondary" onClick={() => setResetOpen(true)} disabled={resetPending}>
-                {resetPending ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <RefreshCw className="h-4 w-4" />
-                )}
-                Reseed
-              </Button>
-            </div>
-          </SectionCard>
+            </SectionCard>
+          ) : (
+            <SectionCard title="Workspace data" subtitle="Owner access required">
+              <p className="text-[12px] leading-relaxed text-white/40">
+                Reseeding demo data is restricted to the zone owner. Ask an owner
+                if you need the sample dataset regenerated.
+              </p>
+            </SectionCard>
+          )}
         </div>
 
         <div className="space-y-5">
